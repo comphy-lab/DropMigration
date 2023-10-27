@@ -23,7 +23,6 @@ scalar cL[],  *stracers = {cL};
 cL[top] = dirichlet(c0);
 cL[right] = dirichlet(c0);
 cL[left] = dirichlet(c0);
-cL[bottom] = dirichlet(c0);
 
 scalar * list = NULL;
 int ny, nx; 
@@ -34,7 +33,7 @@ scalar sigmaf[];
 
 #define Oh 1e0
 #define GammaR 1e0
-#define Ma 1e0
+#define Ma 1e2
 #define AcNum 1e0
 
 int main(){

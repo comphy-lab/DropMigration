@@ -33,7 +33,7 @@ scalar sigmaf[];
 
 #define Oh 1e0
 #define GammaR 1e0
-#define Ma 1e2
+#define Ma 1e1
 #define AcNum 1e0
 
 int main(){
