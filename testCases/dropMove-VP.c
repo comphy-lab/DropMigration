@@ -1,7 +1,7 @@
 // same as dropMove.c but proper non-dimensionalization
 
 #define MIN_LEVEL 0
-#define MAX_LEVEL 7
+#define MAX_LEVEL 8
 
 #define VelErr 1e-3
 #define FErr 1e-3
@@ -12,17 +12,18 @@
 
 #include "navier-stokes/centered.h"
 #define FILTERED
-#include "two-phase-clsvof.h"
+#include "two-phase-clsvof-VP.h"
 #include "integral.h"
-#include "../src/activity.h"
+#include "activity.h"
 // #include "curvature.h"
 
 scalar cL[],  *stracers = {cL};
 #define c0 0.0
 
-cL[top] = dirichlet(c0);
-cL[right] = dirichlet(c0);
-cL[left] = dirichlet(c0);
+cL[top] = neumann(0.);
+cL[right] = neumann(0.);
+cL[left] = neumann(0.);
+cL[bottom] = neumann(0.);
 f[bottom] = dirichlet(0.0);
 
 scalar * list = NULL;
@@ -34,14 +35,15 @@ scalar sigmaf[];
 
 #define Oh 1e0
 #define GammaR 1e0
-#define Ma 1e0
+#define Ma 1e1
 #define AcNum 1e0
+#define J 1e-1
 
 int main(){
   stokes = true;
   // dtmax = 1e-2;
-  L0 = 8.0;
-  origin (-0.5*L0, -1.05);
+  L0 = 16.0;
+  origin (-0.5*L0, -0.5*L0);
   // origin (0.,0.);
   N = 1 << MAX_LEVEL;
   init_grid (N);
@@ -51,6 +53,9 @@ int main(){
   rho1 = 1e0/sq(Oh); rho2 = 1e0/sq(Oh);
   tmax = 25.;
   mu1 = 1.0; mu2 = 1.0;
+  mumax = (1e4)*mu2;
+  tauy = J;
+
 
   cL.inverse = true;
   cL.A = AcNum;
