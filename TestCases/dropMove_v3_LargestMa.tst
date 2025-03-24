@@ -1,2 +1,0 @@
-042029a157787bbb187788977dffeaaeebb2f253  dropMove_v3_LargestMa.c
-748f481f3997f632a8e7d489a439822dcbc3cd54  dropMove_v3_LargestMa.s
