@@ -117,6 +117,8 @@ deps/
 **/getData
 **/getFacets
 
+**/.project_config
+
 # Never exclude these files
 !*.c
 !*.h
