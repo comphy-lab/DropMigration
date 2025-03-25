@@ -1,2 +1,0 @@
-export BASILISK=/Users/vatsal/Library/CloudStorage/Dropbox/0-Projects/proof-of-concepts/ActiveSwimmer/DropMigration/basilisk/src
-export PATH=$PATH:$BASILISK
