@@ -1,35 +1,16 @@
-*.DS_Store*
-*/*.DS_Store*
-*/*/*.DS_Store*
+# OS generated files
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-*.tst.*
-*/*.tst.*
-*/*/*.tst.*
-
-intermediate*
-*/*intermediate*
-*/*/*intermediate*
-*/*/*/*intermediate*
-
-Video*
-*/*Video*
-*/*/*Video*
-*/*/*/*Video*
-
-*/src
-
-*.dSYM
-*/*.dSYM
-*/*/*.dSYM
-*/*/*/*.dSYM
-
-*.s
-*/*.s
-*/*/*.s
-*/*/*/*.s
-
-*/*.deps
-*/*.tests
+# IDE/Editor folders
+.vscode/
+.idea/
+*.swp
+*~
 
 # Prerequisites
 *.d
@@ -55,7 +36,7 @@ Video*
 *.la
 *.lo
 
-# Shared objects (inc. Windows DLLs)
+# Shared objects
 *.dll
 *.so
 *.so.*
@@ -83,3 +64,60 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Build and dependency directories
+build/
+bin/
+obj/
+deps/
+
+# Project specific files
+**/_darcs
+**/*.html
+**/intermediate*
+**/log*.dat
+**/restart*
+**/*.tags*
+**/*.deps
+**/*.tests
+**/*.tst
+**/*.s
+**/*.s.o
+**/*.s.d
+**/*.s.d.o
+**/*.s.d.d
+**/*.s.d.d.o
+**/*.s.d.d.d
+**/*.s.d.d.d.o
+**/*.s.d.d.d.d
+**/Video
+**/*.mp4
+**/*.json
+**/*.bv
+
+# some ai files
+**/CLAUDE.md
+**/.windsurfrules
+**/.cursorrules
+
+# Custom executables
+**/dropMove_v2
+**/dropMove_v3_LargestMa
+**/dropMove_v3
+**/dropMove_v4
+**/dropMove
+**/dropMoveVP
+**/testActiveDiffusion
+**/dropMove-FreeSlip
+
+# post-processing skip
+**/getData-generic
+**/getData-Line
+**/getData-onlyCL
+**/getData
+**/getFacets
+
+# Never exclude these files
+!*.c
+!*.h
+!*.sbatch

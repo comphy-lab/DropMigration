@@ -1,2 +1,0 @@
-c9bbeba74949808e3ee60c15373be6a15f6802d4  dropMove_v2.c
-efd6743e99d8cdc5a4ec65bb2092750a7777dc01  dropMove_v2.s

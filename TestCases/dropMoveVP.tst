@@ -1,2 +1,0 @@
-d5651fa1609c54702ab8b1f9b635dbcc309b9060  dropMoveVP.c
-47ddf38b7e7a416e9cf90c079d7253e2ad32d8ab  dropMoveVP.s
