@@ -1,4 +1,14 @@
-// same as dropMove.c but proper non-dimensionalization
+/**
+ * Simulation of a two-phase droplet system with surfactant effects
+ * 
+ * This code simulates a droplet with surfactant-modified surface tension
+ * using the CLSVOF (Coupled Level Set and Volume of Fluid) method.
+ * The system is non-dimensionalized with the following parameters:
+ * - Oh (Ohnesorge number): Ratio of viscous to inertial and surface tension forces
+ * - Ma (Marangoni number): This is more like the Peclet number
+ * - GammaR: Base surface tension coefficient
+ * - AcNum: Activity number for surfactant effects
+ */
 
 #define MIN_LEVEL 0
 #define MAX_LEVEL 7
@@ -17,6 +27,11 @@
 #include "activity.h"
 // #include "curvature.h"
 
+/**
+ * Global variables and boundary conditions
+ * cL: Surfactant concentration field
+ * sigmaf: Surface tension coefficient field
+ */
 scalar cL[],  *stracers = {cL};
 #define c0 0.0
 
@@ -33,15 +48,21 @@ double dtmax, tmax;
 
 scalar sigmaf[];
 
+/**
+ * Non-dimensional parameters
+ */
 #define Oh 1e0
 #define GammaR 1e0
 #define Ma 1e1
 #define AcNum 1e0
 
+/**
+ * Main function: Sets up and runs the simulation
+ */
 int main(){
   stokes = true;
   // dtmax = 1e-2;
-  L0 = 16.0;
+  L0 = 8.0;
   origin (-0.5*L0, -0.5*L0);
   // origin (0.,0.);
   N = 1 << MAX_LEVEL;
@@ -50,7 +71,7 @@ int main(){
   d.sigmaf = sigmaf;
 
   rho1 = 1e0/sq(Oh); rho2 = 1e0/sq(Oh);
-  tmax = 25.;
+  tmax = 50.;
   mu1 = 1.0; mu2 = 1.0;
 
   cL.inverse = true;
@@ -67,7 +88,14 @@ int main(){
 
 }
 
-
+/**
+ * Initialization event
+ * Sets up initial conditions for:
+ * - Distance function (d)
+ * - Velocity fields (u.x, u.y)
+ * - Surfactant concentration (cL)
+ * - Surface tension coefficient (sigmaf)
+ */
 event init (i = 0) {
   // fraction (fphi, sq(rin) - sq(x) - sq(y));
   foreach() {
@@ -79,6 +107,10 @@ event init (i = 0) {
   }
 }
 
+/**
+ * Properties update event
+ * Updates the surface tension coefficient based on surfactant concentration
+ */
 event properties(i++){
   foreach(){
     sigmaf[] = GammaR + cL[];
@@ -94,6 +126,10 @@ event adapt(i++){
   adapt_wavelet({f, u.x, u.y, cL, KAPPA}, (double[]){FErr, VelErr, VelErr, cErr, KErr}, MAX_LEVEL, MIN_LEVEL);
 }
 
+/**
+ * Output event
+ * Saves simulation snapshots at regular intervals
+ */
 event outputs (t = 0.; t += tsnap; t <= tmax) { 
   char dumpFile[160];
   sprintf (dumpFile, "intermediate/snapshot-%5.4f", t);
@@ -101,6 +137,11 @@ event outputs (t = 0.; t += tsnap; t <= tmax) {
 }
 scalar cTest[];
 
+/**
+ * Logging event
+ * Computes and logs kinetic energy of the system
+ * Also performs assertions to check simulation stability
+ */
 event logWriting (i++) {
   
   double ke = 0.;
