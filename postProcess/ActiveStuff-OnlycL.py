@@ -43,40 +43,31 @@ def get_segs(place):
     return segs
 
 def get_field_values(place, xmin, xmax, ymin, ymax, ny):
-    temp2 = list(filter(None, execute_process(["./getData_VP", place, str(xmin), str(ymin), str(xmax), str(ymax), str(ny)])))
+    temp2 = list(filter(None, execute_process(["./getData-onlyCL", place, str(xmin), str(ymin), str(xmax), str(ymax), str(ny)])))
     data = np.array([line.split() for line in temp2], dtype=float)
     nx = data.shape[0] // ny
     X = data[:,0].reshape((nx, ny)).transpose()
     Y = data[:,1].reshape((nx, ny)).transpose()
     T = data[:,2].reshape((nx, ny)).transpose()
-    D2 = data[:,3].reshape((nx, ny)).transpose()
-    Vel = data[:,4].reshape((nx, ny)).transpose()
-    return X, Y, T, D2, Vel, nx
+    return X, Y, T, nx
 
-def plot_graphics(t, name, xmin, xmax, ymin, ymax, segs, T, D2, Vel):
+def plot_graphics(t, name, xmin, xmax, ymin, ymax, segs, T):
 
-    fig, axs = plt.subplots(1, 3, figsize=(19.20, 10.80))
-    
-    # Common attributes for all subplots
-    for ax in axs:
-        rect = matplotlib.patches.Rectangle((xmin, ymin), xmax-xmin, ymax-ymin, linewidth=2, edgecolor='k', facecolor='none')
-        ax.add_patch(rect)
-        line_segments = LineCollection(segs, linewidths=4, colors='green', linestyle='solid')
-        ax.add_collection(line_segments)
-        ax.set_aspect('equal')
-        ax.set_xlim(xmin, xmax)
-        ax.set_ylim(ymin, ymax)
-        ax.axis('off')
+    fig, ax = plt.subplots()
+    fig.set_size_inches(19.20, 10.80)
+    rect = matplotlib.patches.Rectangle((xmin, ymin), xmax-xmin, ymax-ymin, linewidth=2, edgecolor='k', facecolor='none')
+    ax.add_patch(rect)
+    line_segments = LineCollection(segs, linewidths=4, colors='green', linestyle='solid')
+    ax.add_collection(line_segments)
 
-    # Individual subplots
-    axs[0].imshow(T, cmap="coolwarm", interpolation='Bilinear', origin='lower', extent=[xmin, xmax, ymin, ymax], vmax=4.0, vmin=0.0)
-    axs[0].set_title(r"$\phi, t = %5.4f$" % t, fontsize=20)
+    ax.imshow(T, cmap="coolwarm", interpolation='Bilinear', origin='lower', extent= [xmin, xmax, ymin, ymax], vmax = 4.0, vmin = 0.0)
+        
+    ax.set_aspect('equal')
+    ax.set_xlim(xmin, xmax)
+    ax.set_ylim(ymin, ymax)
 
-    axs[1].imshow(D2, cmap="hot", interpolation='Bilinear', origin='lower', extent=[xmin, xmax, ymin, ymax], vmax=0.5, vmin=-1.5)
-    axs[1].set_title(r"$\|\mathcal{D}_{ij}\|, t = %5.4f$" % t, fontsize=20)
-
-    axs[2].imshow(Vel, cmap="Blues", interpolation='Bilinear', origin='lower', extent=[xmin, xmax, ymin, ymax], vmax=0.5, vmin=0.0)
-    axs[2].set_title(r"$\|V_i\|, t = %5.4f$" % t, fontsize=20)   
+    ax.set_title(r"$t = %5.4f$" % t, fontsize=20)
+    ax.axis('off')        
 
     plt.savefig(name, bbox_inches='tight', dpi=300)
     plt.close()
@@ -94,9 +85,9 @@ def process_file(ti, folder, tSnap, xmin, xmax, ymin, ymax, ny, lw=2):
         return
 
     segs = get_segs(place)
-    X, Y, T, D2, Vel, nz = get_field_values(place, xmin, xmax, ymin, ymax, ny)
+    X, Y, T, nz = get_field_values(place, xmin, xmax, ymin, ymax, ny)
     
-    plot_graphics(t, name, xmin, xmax, ymin, ymax, segs, T, D2, Vel)
+    plot_graphics(t, name, xmin, xmax, ymin, ymax, segs, T)
 
     return nz
 
@@ -110,7 +101,7 @@ def main():
 
     args = parser.parse_args()
 
-    nGFS = 500
+    nGFS = 300
     num_workers = args.num_workers
     tSnap = args.tSnap
     L0 = args.L0

@@ -3,7 +3,8 @@
 # vatsalsanjay@gmail.com
 # Physics of Fluids
 */
-#include "navier-stokes/centered.h"
+#include "utils.h"
+#include "output.h"
 #include "fractions.h"
 
 scalar f[];
@@ -12,10 +13,6 @@ int main(int a, char const *arguments[])
 {
   sprintf (filename, "%s", arguments[1]);
   restore (file = filename);
-  #if TREE
-    f.prolongation = fraction_refine;
-  #endif
-
   FILE * fp = ferr;
   output_facets(f,fp);
   fflush (fp);

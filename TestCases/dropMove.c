@@ -41,6 +41,11 @@ cL[left] = neumann(0.);
 cL[bottom] = neumann(0.);
 f[bottom] = dirichlet(0.0);
 
+u.t[top] = dirichlet(0.);
+u.t[right] = dirichlet(0.);
+u.t[left] = dirichlet(0.);
+u.t[bottom] = dirichlet(0.);
+
 scalar * list = NULL;
 int ny, nx; 
 double Deltay, Deltax;

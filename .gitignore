@@ -108,10 +108,14 @@ deps/
 **/dropMove
 **/dropMoveVP
 **/testActiveDiffusion
+**/dropMove-FreeSlip
 
 # post-processing skip
 **/getData-generic
 **/getData-Line
+**/getData-onlyCL
+**/getData
+**/getFacets
 
 # Never exclude these files
 !*.c
